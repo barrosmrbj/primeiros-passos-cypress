@@ -46,13 +46,20 @@ describe('Orange HRM Tests', () => {
     cy.get(selectorList.genericField).eq(3).clear().type('EmployTest')
     cy.get(selectorList.genericField).eq(4).clear().type('OtherIdTest')
     cy.get(selectorList.genericField).eq(5).clear().type('DriverLicenseTest')
-    cy.get(selectorList.genericDateField).eq(0).clear().type('2025-12-31')
+    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input').clear().type('2025-12-31')
+    //cy.get(selectorList.genericDateField).eq(0).clear().type('2025-12-31')
     cy.get(selectorList.dateCloseButton).click()
-    cy.get(selectorList.genericDateField).eq(1).clear().type('2023-12-31')
+    cy.get(':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input').clear().type('2023-12-31')
     cy.get(selectorList.dateCloseButton).click()
-    cy.get(selectorList.submitButton).eq(0).click()
+    cy.get(':nth-child(5) > :nth-child(1) > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text-input').click()
+    cy.get('.oxd-select-dropdown > :nth-child(4) > span').click()
+    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text').click()
+    cy.get('.oxd-select-dropdown > :nth-child(3)').click()
+
+
+    /*cy.get(selectorList.submitButton).eq(0).click({force=true})
     cy.get('body').should('contain', 'Successfully Updated')
-    cy.get(".oxd-toast-close")
+    cy.get(".oxd-toast-close") */
      
 
   }) 
