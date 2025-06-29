@@ -12,65 +12,33 @@
     O teste de login com credenciais incorretas deve exibir uma mensagem de erro.
     O teste utiliza o Cypress para automatizar o navegador e verificar os elementos da página.
 */
-
 import userData from '../fixtures/user-data.json'
 import LoginPage from '../pages/loginPage'
 import DashboardPage from '../pages/dashboardPage' 
 import MenuPage from '../pages/menuPage'
+import MyInfoPage from '../pages/myInfoPage'
 
+const Chance = require('chance')
+
+const chance = new Chance()
 const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
 const menuPage = new MenuPage()
+const myInfoPage = new MyInfoPage()
 
 describe('Orange HRM Tests', () => {
 
-  const selectorList = {  
-
-
-      
-      firstNameField: "[name='firstName']",
-      lastNameField: "[name='lastName']",
-      genericField: ".oxd-input--active",
-      genericDateField: "[placeholder='yyyy-dd-mm']",
-      dateCloseButton: ".--close",
-      submitButton: "[type='submit']"
-  }
-
-  it.only('User Info Update - Sucess', () => {
+  it('User Info Update - Sucess', () => {
     loginPage.acessLoginPage()
     loginPage.loginWithAnyUser(userData.userSucess.username, userData.userSucess.password)
 
     dashboardPage.checkDashboardPage()
     menuPage.acessMyInfo()
-
-/*     
-    cy.get(selectorList.firstNameField).clear().type('FirstNametest')
-    cy.get(selectorList.lastNameField).clear().type('LastNametest')
-    cy.get(selectorList.genericField).eq(3).clear().type('EmployTest')
-    cy.get(selectorList.genericField).eq(4).clear().type('OtherIdTest')
-    cy.get(selectorList.genericField).eq(5).clear().type('DriverLicenseTest')
-    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input').clear().type('2025-12-31')
-    //cy.get(selectorList.genericDateField).eq(0).clear().type('2025-12-31')
-    cy.get(selectorList.dateCloseButton).click()
-    cy.get(':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input').clear().type('2023-12-31')
-    cy.get(selectorList.dateCloseButton).click()
-    cy.get(':nth-child(5) > :nth-child(1) > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text-input').click()
-    cy.get('.oxd-select-dropdown > :nth-child(4) > span').click()
-    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text').click()
-    cy.get('.oxd-select-dropdown > :nth-child(3)').click() */
-
-
-    /*cy.get(selectorList.submitButton).eq(0).click({force=true})
-    cy.get('body').should('contain', 'Successfully Updated')
-    cy.get(".oxd-toast-close") */
-     
+    myInfoPage.fillPersonalDetails(chance.first(), chance.last(), chance.string())
+    myInfoPage.fillEmploymentDetails('EmployTest', 'OtherIdTest', 'DriverLicenseTest', 'SSNNumberTest', 'SINNumberTest')
+    myInfoPage.fillStatus()
+    myInfoPage.saveForm() 
 
   }) 
-  it('User - Fail', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorList.usernameField).type(userData.userFail.username)
-    cy.get(selectorList.passwordField).type(userData.userFail.password)
-    cy.get(selectorList.loginButton).click()
-    cy.get(selectorList.wrongCredentialAlert).should('be.visible')
-  }) 
+ 
 })

@@ -1,8 +1,6 @@
 /* 
     Iniciar o gitbash e rodar o comando:
-    npx cypress open
-    ou
-    npx cypress run --spec cypress/e2e/login.spec.cy.js
+    npx cypress open      ou        npx cypress run --spec cypress/e2e/login.spec.cy.js
     Para rodar o teste de login do Orange HRM.
     O Cypress deve estar instalado na pasta do projeto.
     O Cypress é uma ferramenta de teste de front-end para aplicações web.
@@ -16,29 +14,23 @@
 */
 
 import userData from '../fixtures/user-data.json'
+import LoginPage from '../pages/loginPage'
+import DashboardPage from '../pages/dashboardPage'
 
-describe('Orange HRM Tests', () => {
+const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
 
-  const selectorList = {  
-      usernameField: "[name='username']",
-      passwordField: "[placeholder='Password']",  
-      loginButton: "[type='submit']",
-      wrongCredentialAlert: '[role="alert"]',
-  }
+describe('Login Orange HRM Tests', () => {
 
-  it('Login - Sucess', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorList.usernameField).type(userData.userSucess.username)
-    cy.get(selectorList.passwordField).type(userData.userSucess.password)
-    cy.get(selectorList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorList.dashboardGrid)
-  }) 
   it('Login - Fail', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorList.usernameField).type(userData.userFail.username)
-    cy.get(selectorList.passwordField).type(userData.userFail.password)
-    cy.get(selectorList.loginButton).click()
-    cy.get(selectorList.wrongCredentialAlert).should('be.visible')
-  })
+    loginPage.acessLoginPage()
+    loginPage.loginWithAnyUser(userData.userFail.username, userData.userFail.password)
+    loginPage.checkAcessInvalid()
+  }) 
+
+  it('Login - Success', () => {
+    loginPage.acessLoginPage()
+    loginPage.loginWithAnyUser(userData.userSucess.username, userData.userSucess.password)
+    dashboardPage.checkDashboardPage()
+  }) 
 })
