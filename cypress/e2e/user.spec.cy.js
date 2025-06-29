@@ -14,17 +14,20 @@
 */
 
 import userData from '../fixtures/user-data.json'
+import LoginPage from '../pages/loginPage'
+import DashboardPage from '../pages/dashboardPage' 
+import MenuPage from '../pages/menuPage'
+
+const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
+const menuPage = new MenuPage()
 
 describe('Orange HRM Tests', () => {
 
   const selectorList = {  
-      usernameField: "[name='username']",
-      passwordField: "[placeholder='Password']",  
-      loginButton: "[type='submit']",
-      sectionTitle: ".oxd-topbar-header-breadcrumb-module",
-      dashboardGrid: ".orangehrm-dashboard-grid",  
-      wrongCredentialAlert: '[role="alert"]',
-      myInfoButton: "[href='/web/index.php/pim/viewMyDetails']",
+
+
+      
       firstNameField: "[name='firstName']",
       lastNameField: "[name='lastName']",
       genericField: ".oxd-input--active",
@@ -34,13 +37,13 @@ describe('Orange HRM Tests', () => {
   }
 
   it.only('User Info Update - Sucess', () => {
-    cy.visit('/auth/login')
-    cy.get(selectorList.usernameField).type(userData.userSucess.username)
-    cy.get(selectorList.passwordField).type(userData.userSucess.password)
-    cy.get(selectorList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorList.dashboardGrid)
-    cy.get(selectorList.myInfoButton).click() 
+    loginPage.acessLoginPage()
+    loginPage.loginWithAnyUser(userData.userSucess.username, userData.userSucess.password)
+
+    dashboardPage.checkDashboardPage()
+    menuPage.acessMyInfo()
+
+/*     
     cy.get(selectorList.firstNameField).clear().type('FirstNametest')
     cy.get(selectorList.lastNameField).clear().type('LastNametest')
     cy.get(selectorList.genericField).eq(3).clear().type('EmployTest')
@@ -54,7 +57,7 @@ describe('Orange HRM Tests', () => {
     cy.get(':nth-child(5) > :nth-child(1) > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text-input').click()
     cy.get('.oxd-select-dropdown > :nth-child(4) > span').click()
     cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text').click()
-    cy.get('.oxd-select-dropdown > :nth-child(3)').click()
+    cy.get('.oxd-select-dropdown > :nth-child(3)').click() */
 
 
     /*cy.get(selectorList.submitButton).eq(0).click({force=true})

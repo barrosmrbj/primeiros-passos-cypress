@@ -23,9 +23,7 @@ describe('Orange HRM Tests', () => {
       usernameField: "[name='username']",
       passwordField: "[placeholder='Password']",  
       loginButton: "[type='submit']",
-      sectionTitle: ".oxd-topbar-header-breadcrumb-module",
-      dashboardGrid: ".orangehrm-dashboard-grid",  
-      wrongCredentialAlert: '[role="alert"]'
+      wrongCredentialAlert: '[role="alert"]',
   }
 
   it('Login - Sucess', () => {
